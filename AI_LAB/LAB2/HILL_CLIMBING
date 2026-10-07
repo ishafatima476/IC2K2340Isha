@@ -1,0 +1,25 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int current, next;
+
+    cout << "Enter current state value: ";
+    cin >> current;
+
+    cout << "Enter next state value: ";
+    cin >> next;
+
+    while (next > current)
+    {
+        current = next;
+
+        cout << "Enter next state value: ";
+        cin >> next;
+    }
+
+    cout << "Hill Climbing stops at: " << current << endl;
+
+    return 0;
+}
