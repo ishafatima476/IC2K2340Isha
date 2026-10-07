@@ -1,0 +1,110 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <climits>
+using namespace std;
+
+struct Node
+{
+    int vertex;
+    int f;
+};
+
+struct Compare
+{
+    bool operator()(Node a, Node b)
+    {
+        return a.f > b.f;
+    }
+};
+
+int main()
+{
+    int n, edges;
+
+    cout << "Enter number of vertices: ";
+    cin >> n;
+
+    vector<vector<pair<int, int>>> graph(n);
+    vector<int> h(n);
+
+    cout << "Enter heuristic values:\n";
+    for (int i = 0; i < n; i++)
+    {
+        cout << "h(" << i << ") = ";
+        cin >> h[i];
+    }
+
+    cout << "Enter number of edges: ";
+    cin >> edges;
+
+    cout << "Enter edges (u v cost):\n";
+
+    for (int i = 0; i < edges; i++)
+    {
+        int u, v, cost;
+        cin >> u >> v >> cost;
+
+        graph[u].push_back({v, cost});
+        graph[v].push_back({u, cost});
+    }
+
+    int start, goal;
+
+    cout << "Enter starting vertex: ";
+    cin >> start;
+
+    cout << "Enter goal vertex: ";
+    cin >> goal;
+
+    vector<int> g(n, INT_MAX);
+    vector<bool> visited(n, false);
+
+    priority_queue<Node, vector<Node>, Compare> pq;
+
+    g[start] = 0;
+    pq.push({start, h[start]});
+
+    cout << "A* Search: ";
+
+    while (!pq.empty())
+    {
+        Node current = pq.top();
+        pq.pop();
+
+        int u = current.vertex;
+
+        if (visited[u])
+            continue;
+
+        visited[u] = true;
+
+        cout << u << " ";
+
+        if (u == goal)
+        {
+            cout << "\nGoal reached!";
+            cout << "\nCost = " << g[u];
+            break;
+        }
+
+        for (auto edge : graph[u])
+        {
+            int v = edge.first;
+            int cost = edge.second;
+
+            int newG = g[u] + cost;
+
+            if (newG < g[v])
+            {
+                g[v] = newG;
+
+                int f = g[v] + h[v];
+
+                pq.push({v, f});
+            }
+        }
+    }
+
+    return 0;
+}
