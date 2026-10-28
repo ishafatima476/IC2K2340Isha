@@ -1,0 +1,37 @@
+
+
+import pandas as pd
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+
+data = {
+    "Name": ["Aman", "Riya", "Rahul", "Sara", "Ali"],
+    "Age": [20, 21, None, 22, 20],
+    "Marks": [85, None, 78, 90, 88],
+    "City": ["Indore", "Bhopal", "Indore", "Ujjain", "Bhopal"]
+}
+
+df = pd.DataFrame(data)
+
+print("Original Dataset:")
+print(df)
+
+imputer = SimpleImputer(strategy="mean")
+df[["Age", "Marks"]] = imputer.fit_transform(df[["Age", "Marks"]])
+
+print("\nDataset after Handling Missing Values:")
+print(df)
+
+encoder = LabelEncoder()
+df["City"] = encoder.fit_transform(df["City"])
+
+print("\nDataset after Label Encoding:")
+print(df)
+
+scaler = StandardScaler()
+df[["Age", "Marks"]] = scaler.fit_transform(df[["Age", "Marks"]])
+
+print("\nDataset after Standardization:")
+print(df)
+
+print("\nData Preprocessing Completed Successfully!")
