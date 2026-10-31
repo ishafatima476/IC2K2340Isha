@@ -1,0 +1,62 @@
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+data = {
+    "Name": ["Aman", "Riya", "Rahul", "Sara", "Ali",
+             "Neha", "Karan", "Pooja"],
+    "Age": [20, 21, 22, 20, 23, 21, 22, 24],
+    "Marks": [85, 90, 78, 95, 88, 76, 82, 91],
+    "Study_Hours": [4, 6, 3, 7, 5, 2, 4, 6]
+}
+
+df = pd.DataFrame(data)
+
+print("Original Dataset:")
+print(df)
+
+print("\nDataset Information:")
+print(df.info())
+
+print("\nStatistical Summary:")
+print(df.describe())
+
+print("\nMissing Values:")
+print(df.isnull().sum())
+
+print("\nDuplicate Values:")
+print(df.duplicated().sum())
+
+print("\nCorrelation Matrix:")
+print(df.select_dtypes(include="number").corr())
+
+plt.figure(figsize=(6, 4))
+plt.hist(df["Marks"], bins=5, edgecolor="black")
+plt.title("Distribution of Student Marks")
+plt.xlabel("Marks")
+plt.ylabel("Frequency")
+plt.show()
+
+plt.figure(figsize=(6, 4))
+sns.boxplot(x=df["Marks"])
+plt.title("Box Plot of Marks")
+plt.show()
+
+plt.figure(figsize=(6, 4))
+sns.scatterplot(x="Study_Hours", y="Marks", data=df)
+plt.title("Study Hours vs Marks")
+plt.xlabel("Study Hours")
+plt.ylabel("Marks")
+plt.show()
+
+plt.figure(figsize=(6, 4))
+sns.heatmap(
+    df.select_dtypes(include="number").corr(),
+    annot=True,
+    cmap="coolwarm"
+)
+plt.title("Correlation Heatmap")
+plt.show()
+
+print("\nEDA Completed Successfully!")
